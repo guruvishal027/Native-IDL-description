@@ -1,65 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dropdown Data Viewer</title>
-  <style>
-    body { font-family: Arial; margin: 40px; }
-    select, button { margin-top: 10px; padding: 8px; }
-    #dataBox {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      background: #f9f9f9;
-      white-space: pre-wrap;
-      min-height: 40px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Data Copy Tool</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-  <h2>Select an Option</h2>
-  <select id="dropdown">
-    <option value="">-- Select --</option>
+  <h1>Excel Data Copy Tool</h1>
+  <input type="file" id="excelFile" accept=".xlsx, .xls">
+  <br><br>
+  
+  <select id="dropdown1">
+    <option value="">Select Option 1</option>
   </select>
+  
+  <select id="dropdown2">
+    <option value="">Select Option 2</option>
+  </select>
+  
+  <button id="populateBtn">Populate Data</button>
+  <pre id="displayData"></pre>
+  <button id="copyBtn">Copy Data</button>
 
-  <div id="dataBox"></div>
-  <button id="copyBtn" style="display:none;">Copy</button>
-
-  <script>
-    let dataList = [];
-
-    fetch('data.json')
-      .then(res => res.json())
-      .then(data => {
-        dataList = data;
-        const dropdown = document.getElementById('dropdown');
-        data.forEach(item => {
-          const opt = document.createElement('option');
-          opt.value = item.Option;
-          opt.textContent = item.Option;
-          dropdown.appendChild(opt);
-        });
-      });
-
-    document.getElementById('dropdown').addEventListener('change', function() {
-      const selected = this.value;
-      const item = dataList.find(d => d.Option === selected);
-      const dataBox = document.getElementById('dataBox');
-      const copyBtn = document.getElementById('copyBtn');
-
-      if (item) {
-        dataBox.textContent = item.Data;
-        copyBtn.style.display = 'inline-block';
-      } else {
-        dataBox.textContent = '';
-        copyBtn.style.display = 'none';
-      }
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', function() {
-      const text = document.getElementById('dataBox').textContent;
-      navigator.clipboard.writeText(text);
-      alert('Copied!');
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
